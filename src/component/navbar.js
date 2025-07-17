@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // import "../styles/Navbar.css"; // Optional, if you're using a separate CSS file
 
 const Navbar = () => {
@@ -10,7 +11,8 @@ const Navbar = () => {
       </div>
       <ul>
         <li>Dashboard</li>
-        <li>Property</li>
+        <li><Link to="/investor/properties">Properties</Link></li>
+        <li><Link to="/investor/profile">Profile</Link></li>
         <li>Tenants</li>
         <li>Add Property</li>
         <li>Maintainer</li>

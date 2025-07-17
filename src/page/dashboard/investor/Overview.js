@@ -1,16 +1,9 @@
-import React from "react";
-import Navbar from "../../component/navbar";
-import Header from "../../component/header";
-// import "../styles/Dashboard.css"; // Optional: If you're using a central CSS
+import React from 'react'
 
-const InvestorDashboard = () => {
+const Overview = () => {
   return (
-    <div className="dashboard-wrapper">
-      <Navbar />
-      <main className="dashboard-content">
-        <Header />
-
-        {/* Dashboard Content */}
+    <div>
+      {/* Dashboard Content */}
         <div className="dashboard-section">
           <h2>DASHBOARD</h2>
 
@@ -86,9 +79,8 @@ const InvestorDashboard = () => {
             </div>
           </div>
         </div>
-      </main>
     </div>
-  );
-};
+  )
+}
 
-export default InvestorDashboard;
+export default Overview
