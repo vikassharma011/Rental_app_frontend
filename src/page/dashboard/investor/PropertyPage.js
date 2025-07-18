@@ -1,70 +1,109 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropertyCard from "../../../component/PropertyCard.js";
-import House1 from "../../../assest/house1.jpg";
-import House2 from "../../../assest/house2.jpg";
-import House3 from "../../../assest/house3.jpg";
-import House4 from "../../../assest/house4.jpg";
-import House5 from "../../../assest/house5.jpg";
-import House6 from "../../../assest/house6.jpg";
-
-const properties = [
-  {
-    title: "Oceanview Retreat",
-    image: House1,
-    units: 4,
-    rooms: 20,
-    description:
-      "Located in the vibrant city of Miami, Florida, Oceanview Retreat is a luxurious beachfront property.",
-  },
-  {
-    title: "Countryside Villa",
-    image: House2,
-    units: 2,
-    rooms: 10,
-    description:
-      "Nestled in the peaceful countryside, this villa is an escape from the noisy urban life.",
-  },
-  {
-    title: "Mountain Escape",
-    image: House3,
-    units: 3,
-    rooms: 15,
-    description:
-      "This luxurious mountain house offers breathtaking views of green valleys and snow-capped peaks.",
-  },
-  {
-    title: "Modern City Home",
-    image: House4,
-    units: 5,
-    rooms: 25,
-    description:
-      "Located in the center of downtown, this modern city property combines smart living with high-end luxury.",
-  },
-  {
-    title: "Lakeview Bungalow",
-    image: House5,
-    units: 2,
-    rooms: 12,
-    description:
-      "This charming bungalow offers a stunning view of the peaceful lake just steps away.",
-  },
-  {
-    title: "Coastal Paradise",
-    image: House6,
-    units: 3,
-    rooms: 18,
-    description:
-      "Experience coastal luxury in this ultra-modern beachfront home.",
-  },
-];
 
 const PropertyPage = () => {
   const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    imageFile: null,
+    address: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    description: "",
+  });
+
+  const [propertyList, setPropertyList] = useState([]);
   const formRef = useRef();
 
-  const handleToggleForm = () => {
-    setShowForm(!showForm);
+  const decodeToken = (token) => {
+    try {
+      const payload = token.split(".")[1];
+      const decoded = JSON.parse(atob(payload));
+      return decoded;
+    } catch (err) {
+      console.error("Invalid token decode:", err);
+      return null;
+    }
   };
+
+  const fetchProperties = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const decoded = decodeToken(token);
+      const investor_id = decoded?.userId;
+
+      const res = await fetch(
+        `https://rentalappbackend-production.up.railway.app/investor/properties?investor_id=${investor_id}`
+      );
+      const data = await res.json();
+      setPropertyList(data.properties || []);
+    } catch (err) {
+      console.error("Failed to fetch properties:", err);
+    }
+  };
+
+  const uploadToCloudinary = async () => {
+    const data = new FormData();
+    data.append("file", formData.imageFile);
+    data.append("upload_preset", "isa-project");
+    data.append("cloud_name", "cloud-content");
+
+    const res = await fetch("https://api.cloudinary.com/v1_1/cloud-content/image/upload", {
+      method: "POST",
+      body: data,
+    });
+
+    const cloudData = await res.json();
+    return cloudData.url;
+  };
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "imageFile") {
+      setFormData((prev) => ({ ...prev, imageFile: files[0] }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const decoded = decodeToken(token);
+      const investor_id = decoded?.userId;
+      if (!investor_id) return alert("User ID not found!");
+
+      const imageUrl = await uploadToCloudinary();
+
+      const property = {
+        ...formData,
+        investor_id,
+        image: imageUrl,
+      };
+
+      delete property.imageFile;
+
+      const res = await fetch("https://rentalappbackend-production.up.railway.app/investor/add/property", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(property),
+      });
+
+      await res.json();
+      fetchProperties();
+      setShowForm(false);
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
+  };
+
+  const handleToggleForm = () => setShowForm(!showForm);
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -93,72 +132,40 @@ const PropertyPage = () => {
 
       {showForm && (
         <div className="form-overlay">
-          <form className="add-property-form" ref={formRef}>
+          <form className="add-property-form" ref={formRef} onSubmit={handleSubmit}>
             <div className="form-columns">
               <div className="form-left">
-                <div>
-                  <label>Title:</label>
-                  <input type="text" placeholder="Enter property title" />
-                </div>
-                <div>
-                  <label>Image URL:</label>
-                  <input type="text" placeholder="Image link" />
-                </div>
-                <div>
-                  <label>Address:</label>
-                  <input type="text" placeholder="Street address" />
-                </div>
-                <div>
-                  <label>City:</label>
-                  <input type="text" placeholder="City" />
-                </div>
-                <div>
-                  <label>State:</label>
-                  <input type="text" placeholder="State" />
-                </div>
+                <div><label>Title:</label><input type="text" name="title" value={formData.title} onChange={handleChange} /></div>
+                <div><label>Image Upload:</label><input type="file" name="imageFile" accept="image/*" onChange={handleChange} /></div>
+                <div><label>Address:</label><input type="text" name="address" value={formData.address} onChange={handleChange} /></div>
+                <div><label>City:</label><input type="text" name="city" value={formData.city} onChange={handleChange} /></div>
+                <div><label>State:</label><input type="text" name="state" value={formData.state} onChange={handleChange} /></div>
               </div>
 
               <div className="form-right">
-                <div>
-                  <label>Zip Code:</label>
-                  <input type="text" placeholder="Postal / Zip code" />
-                </div>
-                <div>
-                  <label>Investor ID:</label>
-                  <input type="text" placeholder="Investor ID" />
-                </div>
-                <div>
-                  <label>Created At:</label>
-                  <input type="text" placeholder="YYYY-MM-DD" />
-                </div>
-                <div>
-                  <label>Updated At:</label>
-                  <input type="text" placeholder="YYYY-MM-DD" />
-                </div>
-                <div>
-                  <label>Description:</label>
-                  <textarea placeholder="Property description" />
-                </div>
+                <div><label>Zip Code:</label><input type="text" name="zip_code" value={formData.zip_code} onChange={handleChange} /></div>
+                <div><label>Description:</label><textarea name="description" value={formData.description} onChange={handleChange} /></div>
               </div>
             </div>
 
             <div className="form-buttons">
               <button type="submit" className="submit-btn">Add</button>
-              <button
-                type="button"
-                className="cancel-btn"
-                onClick={() => setShowForm(false)}
-              >
-                Cancel
-              </button>
+              <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>Cancel</button>
             </div>
           </form>
         </div>
       )}
 
       <div className="property-grid">
-        {properties.map((prop, i) => (
-          <PropertyCard key={i} {...prop} />
+        {propertyList.map((prop, i) => (
+          <PropertyCard
+            key={i}
+            title={prop.title}
+            image={prop.image_url}
+            units={3}
+            rooms={10}
+            description={prop.description}
+          />
         ))}
       </div>
     </div>
