@@ -1,24 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
-// import "../styles/Navbar.css"; // Optional, if you're using a separate CSS file
+import React, { useState } from "react";
+// import "./Navbar.css"; // Make sure you have this CSS file
 
-const Navbar = () => {
+const Navbar = ({ onSelect }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
   return (
-    <aside className="sidebar">
-      <div className="logo">
-        {/* <img src="/assets/logo.png" alt="Logo" className="logo-img" />  */}
-        <span>TMS</span>
+    <>
+      <div className="menu-btn" onClick={toggleMenu}>
+        ☰
       </div>
-      <ul>
-        <li>Dashboard</li>
-        <li><Link to="/investor/properties">Properties</Link></li>
-        <li><Link to="/investor/profile">Profile</Link></li>
-        <li>Tenants</li>
-        <li>Add Property</li>
-        <li>Maintainer</li>
-        <li>Contacts</li>
-      </ul>
-    </aside>
+
+      <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+        <div className="logo">RMS</div>
+        <ul>
+          <li onClick={() => onSelect("dashboard")}>Dashboard</li>
+          <li onClick={() => onSelect("property")}>Property</li>
+          <li onClick={() => onSelect("tenants")}>Tenants</li>
+          <li onClick={() => onSelect("supplier")}>Supplier</li>
+          <li onClick={() => onSelect("maintainer")}>Maintainer</li>
+          <li onClick={() => onSelect("contacts")}>Contacts</li>
+        </ul>
+      </aside>
+    </>
   );
 };
 

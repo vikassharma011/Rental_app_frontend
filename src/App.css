@@ -1,3 +1,5 @@
+
+
 .App {
   text-align: center;
 }
@@ -36,6 +38,19 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .main-content,
+  .dashboard-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+
+
+
+
 
 /*///////////////////////////////////// Login Css /////////////////////////////////////////////////*/
 
@@ -375,7 +390,7 @@ form input {
 }
 
 
-/*/////////////////////////////////////////////////// Account Css //////////////////////////////////*/
+/*/////////////////////////////////////////////////// Account Css /////////////////////////////////////////*/
 
 .account-outer-container {
   display: flex;
@@ -478,6 +493,13 @@ form input {
 
 
 /*/////////////////////////////////////////////// Navbar Css /////////////////////////////////////////////////*/
+/* Main content next to sidebar */
+.main-content {
+  margin-left: 220px; /* same as sidebar width */
+  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
 
 .sidebar {
   width: 220px;
@@ -519,9 +541,99 @@ form input {
   color: white;
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 20px 16px;
+    transition: margin-left 0.3s ease;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: -200px;
+    top: 0; 
+    width: 220px;
+    height: 100vh;
+    background-color: white;
+    z-index: 999;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .menu-btn {
+    display: block;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    background-color: #0f172a;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    z-index: 1000;
+  }
+}
+
+/* Menu button for small screens */
+.menu-btn {
+  display: none;
+  font-size: 8px;
+  cursor: pointer;
+  padding: 5px;
+  position: fixed;
+  top: 43px;
+  left: 33px;
+  background-color: #0f172a;
+  color: white;
+  z-index: 1100;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+
+
+
+
+
 
 /*////////////////////////////////////////////////// Header Css ////////////////////////////////////////////////*/
-
 .topbar {
   height: 70px;
   background-color: #fff;
@@ -530,8 +642,15 @@ form input {
   align-items: center;
   padding: 0 30px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
 
+  position: sticky; /* Or use fixed if you want it fully fixed */
+  top: 0;
+  z-index: 99;
+
+  margin-left: 20px; /* Same as sidebar width */
+  width: calc(100% - 20px); /* Remaining space */
+  box-sizing: border-box;
+}
 .language {
   font-size: 14px;
   color: #333;
@@ -560,12 +679,17 @@ form input {
 }
 
 
+
+
 /*/////////////////////////////////////////////////// Investor Dashboard Css //////////////////////////////////*/
 
 .dashboard-wrapper {
   display: flex;
   min-height: 100vh;
   background-color: #f6f9fc;
+  /* padding: 20px 40px; */
+  background-color: #fffbea;
+  /* min-height: 100vh; */
 }
 
 .dashboard-content {
@@ -659,4 +783,691 @@ th, td {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+/* Yeh CSS us file me paste karo jahan InvestorDashboard ya dashboard ki styling ho */
+
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fefae0;
+}
+
+.dashboard-content {
+  flex: 1;
+  width: 100%;
+  /* padding: 1rem; */
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dashboard-content {
+    padding: 0.5rem;
+    width: 100vw;
+  }
+
+  .summary-cards .card {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .bottom-section {
+    flex-direction: column;
+  }
+
+  .box {
+    width: 100% !important;
+  }
+}
+
+
+
+
+
+/*///////////////////////////////////// PropertyCard Css /////////////////////////////////////////////////*/
+/* PropertyCard.css */
+/* Container for cards */
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /*  3 cards per row */
+  gap: 24px;
+  justify-items: center;
+  padding: 20px 0;
+}
+
+/* Each card stays within fixed width */
+.property-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 300px;
+}
+
+.property-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.property-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.property-card-content {
+  padding: 16px;
+}
+
+.property-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.property-card-info {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.property-card-description {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  background-color: #fafafa;
+}
+
+.actions button {
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.actions button:hover {
+  background-color: #e2e2e2;
+}
+
+/* ======================= */
+/* ✅ Flip Card CSS Starts */
+/* ======================= */
+
+.property-card-flip-container {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 300px;
+  height: 420px; /* ✅ Fixed height */
+  position: relative;
+}
+
+.property-card-flip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.property-card-flip-container.flipped .property-card-flip {
+  transform: rotateY(180deg);
+}
+
+.property-card.front,
+.property-card.back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Make sure front content fits inside */
+.property-card.front img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* ✅ Back side centered properly */
+.property-card.back {
+  transform: rotateY(180deg);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden; /* ✅ Prevent overflow */
+}
+
+.property-card.back h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 12px;
+  padding: 0 10px;
+}
+
+.property-card.back p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 18px;
+  line-height: 1.4;
+  padding: 0 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+}
+
+.property-card.back button {
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.property-card.back button:hover {
+  background-color: #e2e2e2;
+}
+
+/* ===================== */
+/* ✅ Flip CSS Ends Here */
+/* ===================== */
+
+
+
+/*////////////////////////////////////// PropertyPage Css ////////////////////////////////////////////////*/
+
+/* PropertyPage.css */
+/* PropertyPage.css */
+
+.property-page {
+  padding: 20px 40px;
+  background-color: #fffbea;
+  min-height: 100vh;
+}
+
+.property-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.property-header h2 {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.leasing-btn {
+  background-color: #ffda77;
+  color: #333;
+  font-weight: 600;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.leasing-btn:hover {
+  background-color: #ffd144;
+}
+
+.property-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: flex-start;
+}
+
+.submit-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+}
+
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 110vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.377);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.add-property-form {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  width: 550px;
+  border: 1px solid #ccc;
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+  color: white; /* 🔄 All text inside form turns white */
+}
+
+.add-property-form div {
+  margin-bottom: 6px;
+}
+
+.add-property-form label {
+  color: white; /* ✅ Label text white */
+}
+
+.add-property-form input,
+.add-property-form textarea {
+  width: 90%;
+  padding: 8px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: transparent;
+  color: white; /* ✅ Input text white */
+}
+
+.add-property-form input::placeholder,
+.add-property-form textarea::placeholder {
+  color: #ddd; /* ✅ Lighter white/gray for placeholders */
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* Two-column layout */
+.form-columns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-left,
+.form-right {
+  flex: 1;
+  min-width: 150px;
+}
+
+
+/*//////////////////////////////////////////////// Tenantpage Css ////////////////////////////////////////*/
+
+.tenant-container {
+  padding: 20px 40px;
+  background-color: #fffbea;
+  min-height: 100vh;
+}
+
+.tenant-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.tenant-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.tenant-table th,
+.tenant-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tenant-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status.active {
+  background-color: #d4f4dd;
+  color: #1b5e20;
+}
+
+.status.inactive {
+  background-color: #ffe0e0;
+  color: #b71c1c;
+}
+
+/* ✅ Responsive Table */
+@media (max-width: 768px) {
+  .tenant-table thead {
+    display: none;
+  }
+
+  .tenant-table,
+  .tenant-table tbody,
+  .tenant-table tr,
+  .tenant-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .tenant-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+
+  .tenant-table td {
+    text-align: left;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+  }
+
+  .tenant-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tenant-container h2 {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+
+.tenant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.tenant-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.add-tenant-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-tenant-btn:hover {
+  background-color: #388e3c;
+}
+
+@media (max-width: 768px) {
+  .tenant-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .add-tenant-btn {
+    width: 100%;
+  }
+}
+
+
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  padding: 24px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.modal-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.modal-form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.add, .cancel {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+}
+
+.add {
+  background: #4caf50;
+  color: white;
+}
+
+.cancel {
+  background: #f44336;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .modal-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*/////////////////////////////////////// Supplier Page CSS /////////////////////////////////////////////////*/
+
+.supplier-container {
+  padding: 2rem;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+h2, h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 2rem;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+}
+
+.supplier-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.supplier-table th,
+.supplier-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.supplier-table th {
+  background-color: #f1f1f1;
+  color: #444;
+}
+
+.supplier-table tr:hover {
+  background-color: #fafafa;
+}
+
+button {
+  margin-right: 8px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+button:nth-child(1) {
+  background-color: #4caf50;
+  color: white;
+}
+
+button:nth-child(2) {
+  background-color: #f44336;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .supplier-container {
+    padding: 1rem;
+  }
+
+  .section {
+    padding: 1rem;
+  }
+
+  .supplier-table thead {
+    display: none;
+  }
+
+  .supplier-table, 
+  .supplier-table tbody, 
+  .supplier-table tr, 
+  .supplier-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .supplier-table tr {
+    margin-bottom: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.75rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  .supplier-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .supplier-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-left: 0.75rem;
+    font-weight: bold;
+    text-align: left;
+    color: #666;
+  }
 }

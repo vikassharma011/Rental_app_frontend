@@ -16,6 +16,7 @@ const LoginForm = () => {
 const handleLogin = async (e) => {
   e.preventDefault();
   setErrorMsg("");
+  setLoading("");
 
   try {
     const response = await axios.post(
@@ -25,16 +26,16 @@ const handleLogin = async (e) => {
 
     const { token } = response.data;
 
-    // ✅ Decode payload from token (middle part)
+    //  Decode payload from token (middle part)
     const payloadBase64 = token.split('.')[1];
     const decodedPayload = JSON.parse(atob(payloadBase64));
     const role = decodedPayload.role;
 
-    // ✅ Store in localStorage
+    //  Store in localStorage
     localStorage.setItem("token", token);
     // localStorage.setItem("role", role);
 
-    // ✅ Navigate based on role
+    //  Navigate based on role
     if (role === "investor") {
       navigate("/investor");
     } else if (role === "tenant") {
