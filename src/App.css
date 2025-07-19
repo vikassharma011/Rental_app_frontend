@@ -560,7 +560,7 @@ form input {
 
 
 
-
+/* 
 
 @media (max-width: 768px) {
   .dashboard-content {
@@ -599,7 +599,7 @@ form input {
 }
 
 /* Menu button for small screens */
-.menu-btn {
+/* .menu-btn {
   display: none;
   font-size: 8px;
   cursor: pointer;
@@ -613,7 +613,7 @@ form input {
 }
 
 /* Responsive styles */
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .menu-btn {
     display: block;
   }
@@ -625,7 +625,7 @@ form input {
   .sidebar.open {
     transform: translateX(0);
   }
-}
+}   */
 
 
 
@@ -634,6 +634,7 @@ form input {
 
 
 /*////////////////////////////////////////////////// Header Css ////////////////////////////////////////////////*/
+
 .topbar {
   height: 70px;
   background-color: #fff;
@@ -642,10 +643,9 @@ form input {
   align-items: center;
   padding: 0 30px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-
   position: sticky; /* Or use fixed if you want it fully fixed */
   top: 0;
-  z-index: 99;
+  z-index: 999;
 
   margin-left: 20px; /* Same as sidebar width */
   width: calc(100% - 20px); /* Remaining space */
@@ -677,6 +677,131 @@ form input {
   font-size: 12px;
   color: gray;
 }
+
+
+
+
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 20px 16px;
+    transition: margin-left 0.3s ease;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: -200px;
+    top: 0; 
+    width: 220px;
+    height: 100vh;
+    background-color: white;
+    z-index: 999;
+    transition: left 0.3s ease;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    left: 0;
+    /* transform: translateX(0); */
+  }
+
+  .menu-btn {
+    display: block;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    background-color: #0f172a;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    z-index: 1000;
+  }
+}
+
+/* Menu button for small screens */
+.menu-btn {
+  display: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  position: fixed;
+  top: 3px;
+  left: 27px;
+  background: none;
+  color: hsla(0, 0%, 0%, 0.806);
+  z-index: 1100;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+
+
+/*//// profile Page in Header Css ////*/
+
+.profile {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 20;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  /* width: 220px; */
+  z-index: 1500;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.profile-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-dropdown li {
+  padding: 10px 16px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.profile-dropdown li:hover {
+  background-color: #f1f5f9;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 
 
@@ -1160,7 +1285,7 @@ th, td {
 }
 
 /* ===============================
-   🧭 Header Section
+    Header Section
 ================================= */
 .tenant-header {
   display: flex;
@@ -1298,7 +1423,7 @@ th, td {
 }
 
 /* ===============================
-   🧱 Tenant Cards Grid
+    Tenant Cards Grid
 ================================= */
 .tenant-card-container {
   display: grid;
@@ -1307,7 +1432,7 @@ th, td {
   margin-bottom: 40px;
 }
 
-/* ✅ Individual Tenant Card */
+/*  Individual Tenant Card */
 .tenant-card {
   background: white;
   border: 1px solid #ccc;
@@ -1394,7 +1519,7 @@ button.disabled {
   pointer-events: none;
 }
 
-/* ✅ Card Content */
+/*  Card Content */
 .card-header h4 {
   margin: 0 0 6px 0;
   font-size: 1.1rem;
@@ -1407,7 +1532,7 @@ button.disabled {
   font-size: 0.95rem;
 }
 
-/* ✅ Button actions inside card */
+/*  Button actions inside card */
 .card-actions {
   margin-top: 12px;
   display: flex;
@@ -1457,7 +1582,7 @@ button.disabled {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* ✅ Form Fields */
+/*  Form Fields */
 .modal-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1477,7 +1602,7 @@ button.disabled {
   }
 }
 
-/* ✅ Modal Buttons */
+/*  Modal Buttons */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -1740,7 +1865,7 @@ button:nth-child(2) {
   text-decoration: underline;
 }
 
-/* ✅ RESPONSIVE */
+/*  RESPONSIVE */
 @media screen and (max-width: 768px) {
   .request-list {
     flex-direction: column;
@@ -1889,4 +2014,46 @@ table th {
 
 .export-btn:hover {
   opacity: 0.85;
+}
+
+
+/*////////////////////////////////// ProfilePage Css //////////////////////////////////*/
+
+/* src/page/ProfilePage.css */
+.profile-container {
+  padding: 100px 20px 20px 270px; /* adjust if sidebar is fixed */
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  box-sizing: border-box;
+}
+
+.profile-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.back-button:hover {
+  background-color: #0056b3;
 }

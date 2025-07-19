@@ -1,45 +1,48 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom"; // ✅ Yeh zaroori hai
 import Navbar from "../../../component/navbar";
 import Header from "../../../component/header";
 import PropertyPage from "./PropertyPage";
-import TenantPage from "./TenantPage"; // ✅ Step 1: Import the TenantPage
+import TenantPage from "./TenantPage";
 import SupplierPage from "./SupplierPage";
 import MaintainerPage from "./MaintainerPage";
 import ReportPage from "./ReportPage";
+import ProfilePage from "./ProfilePage"; // ✅ Import ProfilePage
 
 const InvestorDashboard = () => {
   const [selectedPage, setSelectedPage] = useState("dashboard");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // ✅ Step 2: Add support for "tenants" in renderContent
+  const location = useLocation(); // ✅ Get current path
+
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+
+  const handleSelectPage = (page) => {
+    setSelectedPage(page);
+    setIsSidebarOpen(false);
+  };
+
+  // ✅ Check if route is /investor/profile
+  const isProfileRoute = location.pathname === "/investor/profile";
+
   const renderContent = () => {
-      if (selectedPage === "property") {
-        return <PropertyPage />;
-      } else if (selectedPage === "tenants") {
-        return <TenantPage />;
-      } else if (selectedPage === "supplier") {
-        return <SupplierPage />;
-      } else if (selectedPage === "maintainer") {
-    return <MaintainerPage />;
-      } else if (selectedPage === "reports") {
-        return <ReportPage />;
-      }
+    if (isProfileRoute) return <ProfilePage />; // ✅ This supports direct route
+    if (selectedPage === "property") return <PropertyPage />;
+    else if (selectedPage === "tenants") return <TenantPage />;
+    else if (selectedPage === "supplier") return <SupplierPage />;
+    else if (selectedPage === "maintainer") return <MaintainerPage />;
+    else if (selectedPage === "reports") return <ReportPage />;
 
-    // Default dashboard content
     return (
       <div className="dashboard-section">
         <h2>DASHBOARD</h2>
-
-        {/* Summary Cards */}
         <div className="summary-cards">
           <div className="card"><p>Total Property</p><h3>45</h3></div>
           <div className="card"><p>Total Unit</p><h3>142</h3></div>
           <div className="card"><p>Total Income</p><h3>$56456.00</h3></div>
           <div className="card"><p>Total Expense</p><h3>$26456.00</h3></div>
         </div>
-
-        {/* Bottom Section */}
         <div className="bottom-section">
-          {/* Payment History */}
           <div className="box payment-history">
             <h4>Payment History</h4>
             <table>
@@ -54,8 +57,6 @@ const InvestorDashboard = () => {
             </table>
             <button className="invoice-btn">See Invoices</button>
           </div>
-
-          {/* Maintenance Status */}
           <div className="box maintenance-status">
             <h4>Maintenance Status</h4>
             <ul>
@@ -72,9 +73,9 @@ const InvestorDashboard = () => {
 
   return (
     <div className="dashboard-wrapper">
-      <Navbar onSelect={setSelectedPage} />
+      <Navbar onSelect={handleSelectPage} isOpen={isSidebarOpen} />
       <main className="dashboard-content">
-        <Header />
+        <Header toggleSidebar={toggleSidebar} />
         {renderContent()}
       </main>
     </div>

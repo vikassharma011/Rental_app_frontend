@@ -5,7 +5,7 @@ import Login from "./page/authpage/login";
 import Register from "./page/authpage/register";
 import InvestorDashboard from "./page/dashboard/investor/InvestorDashboard";
 import PropertyPage from "./page/dashboard/investor/PropertyPage"; 
-// import ProfilePage from "./page/dashboard/investor/ProfilePage";
+import ProfilePage from "./page/dashboard/investor/ProfilePage.js";
 import Overview from "./page/dashboard/investor/Overview";
 import PropertyDetail from "./page/dashboard/investor/PropertyDetail.js";
 import SupplierPage from "./page/dashboard/investor/SupplierPage.js"; 
@@ -20,6 +20,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
         {/* Investor Dashboard Layout */}
         <Route path="/investor" element={<InvestorDashboard />}>
@@ -28,7 +29,7 @@ function App() {
           <Route path="property" element={<PropertyDetail />} />
           <Route path="supplier" element={<SupplierPage />} />
           <Route path="reports" element={<ReportPage />} /> 
-          {/* <Route path="profile" element={<ProfilePage />} /> */}
+          
         </Route>
       </Routes>
     </BrowserRouter>
