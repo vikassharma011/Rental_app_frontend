@@ -5,24 +5,24 @@ import PropertyPage from "./PropertyPage";
 import TenantPage from "./TenantPage"; // ✅ Step 1: Import the TenantPage
 import SupplierPage from "./SupplierPage";
 import MaintainerPage from "./MaintainerPage";
-import ContactPage from "./ContactPage";
+import ReportPage from "./ReportPage";
 
 const InvestorDashboard = () => {
   const [selectedPage, setSelectedPage] = useState("dashboard");
 
   // ✅ Step 2: Add support for "tenants" in renderContent
   const renderContent = () => {
-    if (selectedPage === "property") {
-      return <PropertyPage />;
-    } else if (selectedPage === "tenants") {
-      return <TenantPage />;
-    }else if (selectedPage === "supplier") {
-      return <SupplierPage />;
-    }else if (selectedPage === "maintainer") {
-      return <MaintainerPage />;
-    }else if (selectedPage === "contact") {
-      return <ContactPage />;
-    }
+      if (selectedPage === "property") {
+        return <PropertyPage />;
+      } else if (selectedPage === "tenants") {
+        return <TenantPage />;
+      } else if (selectedPage === "supplier") {
+        return <SupplierPage />;
+      } else if (selectedPage === "maintainer") {
+    return <MaintainerPage />;
+      } else if (selectedPage === "reports") {
+        return <ReportPage />;
+      }
 
     // Default dashboard content
     return (

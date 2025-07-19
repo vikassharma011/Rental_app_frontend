@@ -1148,24 +1148,71 @@ th, td {
 
 /*//////////////////////////////////////////////// Tenantpage Css ////////////////////////////////////////*/
 
+/* ===============================
+   🌟 Tenant Page Main Container
+================================= */
 .tenant-container {
-  padding: 20px 40px;
+  padding: 40px 20px 20px;
   background-color: #fffbea;
   min-height: 100vh;
+  margin-left: 13px;
+  margin-top: 10px;
 }
 
-.tenant-container h2 {
-  margin-bottom: 20px;
+/* ===============================
+   🧭 Header Section
+================================= */
+.tenant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 35px;
+}
+
+.tenant-header h2 {
+  margin: 0;
   font-size: 24px;
   color: #333;
 }
 
+.add-tenant-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-tenant-btn:hover {
+  background-color: #388e3c;
+}
+
+@media (max-width: 768px) {
+  .tenant-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .add-tenant-btn {
+    width: 100%;
+  }
+}
+
+/* ===============================
+   🧾 Tenant Table
+================================= */
 .tenant-table {
   width: 100%;
   border-collapse: collapse;
   border-radius: 8px;
   overflow: hidden;
   background-color: #fff;
+  margin-bottom: 30px;
 }
 
 .tenant-table th,
@@ -1180,6 +1227,7 @@ th, td {
   font-weight: bold;
 }
 
+/* ✅ Status Badges */
 .status {
   padding: 4px 10px;
   border-radius: 4px;
@@ -1198,7 +1246,7 @@ th, td {
   color: #b71c1c;
 }
 
-/* ✅ Responsive Table */
+/* ✅ Responsive Table (Mobile) */
 @media (max-width: 768px) {
   .tenant-table thead {
     display: none;
@@ -1249,51 +1297,146 @@ th, td {
   }
 }
 
+/* ===============================
+   🧱 Tenant Cards Grid
+================================= */
+.tenant-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* ✅ Individual Tenant Card */
+.tenant-card {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  transition: box-shadow 0.3s ease;
+  position: relative;
+}
+
+
+
+
+
+.tenant-container {
+  padding: 20px;
+  background: #fffbe9;
+}
 
 .tenant-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.tenant-header h2 {
-  margin: 0;
-  font-size: 24px;
-  color: #333;
 }
 
 .add-tenant-btn {
-  background-color: #4caf50;
+  background-color: #f44336;
   color: white;
-  border: none;
   padding: 8px 16px;
-  border-radius: 6px;
+  border: none;
+  border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
-.add-tenant-btn:hover {
-  background-color: #388e3c;
+.tenant-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
 
-@media (max-width: 768px) {
-  .tenant-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
+.tenant-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  background: white;
+  transition: all 0.3s ease;
+  min-height: 180px;
+}
 
-  .add-tenant-btn {
-    width: 100%;
-  }
+.card-body {
+  margin-top: 10px;
+}
+
+.card-actions {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.inactive {
+  background-color: #f9f9f9;
+  color: #aaa;
 }
 
 
 
 
+
+
+
+.tenant-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tenant-card.inactive {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ✅ Card Content */
+.card-header h4 {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.card-body p {
+  margin: 6px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* ✅ Button actions inside card */
+.card-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.card-actions button {
+  padding: 6px 10px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.card-actions button:hover {
+  background: #0056b3;
+}
+
+.card-actions button.disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* ===============================
+   🧾 Modal Overlay
+================================= */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -1311,9 +1454,10 @@ th, td {
   border-radius: 10px;
   width: 90%;
   max-width: 600px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* ✅ Form Fields */
 .modal-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1327,6 +1471,13 @@ th, td {
   border: 1px solid #ccc;
 }
 
+@media (max-width: 768px) {
+  .modal-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ✅ Modal Buttons */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -1334,7 +1485,8 @@ th, td {
   margin-top: 20px;
 }
 
-.add, .cancel {
+.add,
+.cancel {
   padding: 8px 16px;
   border-radius: 6px;
   border: none;
@@ -1351,18 +1503,15 @@ th, td {
   color: white;
 }
 
-@media (max-width: 768px) {
-  .modal-form {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 /*/////////////////////////////////////// Supplier Page CSS /////////////////////////////////////////////////*/
 
 .supplier-container {
   padding: 2rem;
   font-family: "Segoe UI", sans-serif;
-  background-color: #f9f9f9;
+  background-color: #fffbea;
+  /* background-color: #f9f9f9; */
   min-height: 100vh;
 }
 
@@ -1402,8 +1551,10 @@ h2, h3 {
 }
 
 button {
+  margin-top: 8px;
   margin-right: 8px;
-  padding: 6px 10px;
+  /* margin-left: 90px; */
+  padding: 8px 10px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -1470,4 +1621,272 @@ button:nth-child(2) {
     text-align: left;
     color: #666;
   }
+}
+
+
+
+
+
+
+
+
+.card-container {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.card {
+  flex: 1 1 300px;
+  max-width: 27%;
+  height: 105px;
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+}
+
+
+/*////////////////////////////////////// MaintenancePage Css //////////////////////////////////////////////*/
+
+.maintenance-container {
+  padding: 20px;
+  /* background-color: #f9f9f9; */
+  background-color: #fffbea;
+  min-height: 100vh;
+  margin-left: 10px;
+}
+
+.maintenance-container h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.request-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.request-card {
+  flex: 1 1 300px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+}
+
+.request-card:hover {
+  transform: translateY(-4px);
+}
+
+.request-card div {
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.request-card strong {
+  font-weight: 600;
+}
+
+.escalated {
+  color: #d32f2f;
+  font-weight: 600;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.escalated::before {
+  content: "⚠️";
+  font-size: 16px;
+}
+
+.request-card button {
+  margin-top: 10px;
+  margin-right: 12px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.request-card button:hover {
+  background-color: #0056b3;
+}
+
+.attachment-link {
+  color: #2e7d32;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.attachment-link:hover {
+  text-decoration: underline;
+}
+
+/* ✅ RESPONSIVE */
+@media screen and (max-width: 768px) {
+  .request-list {
+    flex-direction: column;
+  }
+
+  .request-card {
+    width: 100%;
+  }
+
+  .maintenance-container h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+}
+
+
+/*/////////////////////////////////////// ReportPage Css /////////////////////////////////////////////*/
+
+.reports-container {
+  padding: 20px;
+  background-color: #f8fafc;
+  font-family: "Segoe UI", sans-serif;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+.report-section {
+  margin-bottom: 40px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.report-section h3 {
+  margin-bottom: 10px;
+  color: #0f172a;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th,
+table td {
+  border: 1px solid #e2e8f0;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+table th {
+  background-color: #f1f5f9;
+  font-weight: bold;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.export-btn {
+  padding: 10px 20px;
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.export-btn:hover {
+  background-color: #0369a1;
+}
+
+
+
+
+
+
+
+.report-container {
+  padding: 2rem;
+  background-color: #fffbea;
+  min-height: 100vh;
+}
+
+.report-container h2 {
+  font-size: 2rem;
+  color: #1e3a8a;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.report-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.report-section h3 {
+  font-size: 1.25rem;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.report-section p {
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.export-btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.export-btn.pdf {
+  background-color: #2563eb;
+  color: white;
+}
+
+.export-btn.excel {
+  background-color: #10b981;
+  color: white;
+}
+
+.export-btn:hover {
+  opacity: 0.85;
 }

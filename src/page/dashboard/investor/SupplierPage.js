@@ -31,16 +31,19 @@ const pendingRequests = [
 const SupplierPage = () => {
   const [suppliers, setSuppliers] = useState(sampleSuppliers);
   const [requests, setRequests] = useState(pendingRequests);
+  const [activeCard, setActiveCard] = useState(null);
+
+  const toggleCard = (card) => {
+    setActiveCard((prev) => (prev === card ? null : card));
+  };
 
   const approveSupplier = (id) => {
-    const updated = requests.filter((req) => req.id !== id);
-    setRequests(updated);
+    setRequests((prev) => prev.filter((r) => r.id !== id));
     alert("Supplier approved!");
   };
 
   const rejectSupplier = (id) => {
-    const updated = requests.filter((req) => req.id !== id);
-    setRequests(updated);
+    setRequests((prev) => prev.filter((r) => r.id !== id));
     alert("Supplier rejected.");
   };
 
@@ -52,87 +55,115 @@ const SupplierPage = () => {
     <div className="supplier-container">
       <h2>Supplier Management</h2>
 
-      {/* Supplier Performance */}
-      <div className="section">
-        <h3>Supplier Performance</h3>
-        <table className="supplier-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Company</th>
-              <th>Tasks Completed</th>
-              <th>Avg Response Time</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {suppliers.map((sup) => (
-              <tr key={sup.id}>
-                <td>{sup.name}</td>
-                <td>{sup.company}</td>
-                <td>{sup.tasksCompleted}</td>
-                <td>{sup.avgResponseTime}</td>
-                <td>
-                  <button onClick={() => reassignTask(sup)}>🔁 Reassign</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="card-container">
+        <div className="card">
+          <div className="card-header">
+            <h3>Supplier Performance</h3>
+            <button onClick={() => toggleCard("performance")}>
+              {activeCard === "performance" ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="card-header">
+            <h3>Inventory Reports</h3>
+            <button onClick={() => toggleCard("inventory")}>
+              {activeCard === "inventory" ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="card-header">
+            <h3>New Supplier Join Requests</h3>
+            <button onClick={() => toggleCard("requests")}>
+              {activeCard === "requests" ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Inventory Report */}
-      <div className="section">
-        <h3>Inventory Reports</h3>
-        <table className="supplier-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Low Stock Items</th>
-              <th>Last Replaced</th>
-            </tr>
-          </thead>
-          <tbody>
-            {suppliers.map((sup) => (
-              <tr key={sup.id}>
-                <td>{sup.name}</td>
-                <td>{sup.lowStockItems.join(", ")}</td>
-                <td>{sup.lastReplaced}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Pending Supplier Requests */}
-      <div className="section">
-        <h3>New Supplier Join Requests</h3>
-        {requests.length === 0 ? (
-          <p>No pending requests.</p>
-        ) : (
+      {/* Fixed Bottom Detail Box */}
+      <div className="card-detail-box">
+        {activeCard === "performance" && (
           <table className="supplier-table">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Email</th>
                 <th>Company</th>
-                <th>Action</th>
+                <th>Tasks Completed</th>
+                <th>Avg Response Time</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {requests.map((req) => (
-                <tr key={req.id}>
-                  <td>{req.name}</td>
-                  <td>{req.email}</td>
-                  <td>{req.company}</td>
+              {suppliers.map((sup) => (
+                <tr key={sup.id}>
+                  <td>{sup.name}</td>
+                  <td>{sup.company}</td>
+                  <td>{sup.tasksCompleted}</td>
+                  <td>{sup.avgResponseTime}</td>
                   <td>
-                    <button onClick={() => approveSupplier(req.id)}>✅ Approve</button>
-                    <button onClick={() => rejectSupplier(req.id)}>❌ Reject</button>
+                    <button onClick={() => reassignTask(sup)}>🔁 Reassign</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        )}
+
+        {activeCard === "inventory" && (
+          <table className="supplier-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Low Stock Items</th>
+                <th>Last Replaced</th>
+              </tr>
+            </thead>
+            <tbody>
+              {suppliers.map((sup) => (
+                <tr key={sup.id}>
+                  <td>{sup.name}</td>
+                  <td>{sup.lowStockItems.join(", ")}</td>
+                  <td>{sup.lastReplaced}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {activeCard === "requests" && (
+          <>
+            {requests.length === 0 ? (
+              <p>No pending requests.</p>
+            ) : (
+              <table className="supplier-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Company</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {requests.map((req) => (
+                    <tr key={req.id}>
+                      <td>{req.name}</td>
+                      <td>{req.email}</td>
+                      <td>{req.company}</td>
+                      <td>
+                        <button onClick={() => approveSupplier(req.id)}>✅ Approve</button>{" "}
+                        <button onClick={() => rejectSupplier(req.id)}>❌ Reject</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </>
         )}
       </div>
     </div>

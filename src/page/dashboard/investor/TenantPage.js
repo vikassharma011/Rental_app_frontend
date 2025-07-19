@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-// import "./TenantPage.css"; // optional
 
 const tenants = [
   {
@@ -73,6 +72,7 @@ const tenants = [
 const TenantPage = () => {
   const [tenantList, setTenantList] = useState(tenants);
   const [showForm, setShowForm] = useState(false);
+  const [expandedTenantId, setExpandedTenantId] = useState(null);
   const formRef = useRef();
 
   const deactivateTenant = (id) => {
@@ -94,17 +94,19 @@ const TenantPage = () => {
     setShowForm(!showForm);
   };
 
+  const toggleExpand = (id) => {
+    setExpandedTenantId(prev => (prev === id ? null : id));
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (formRef.current && !formRef.current.contains(event.target)) {
         setShowForm(false);
       }
     };
-
     if (showForm) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -124,102 +126,79 @@ const TenantPage = () => {
           <form className="add-property-form" ref={formRef}>
             <div className="form-columns">
               <div className="form-left">
-                <div>
-                  <label>Name:</label>
-                  <input type="text" placeholder="Tenant name" />
-                </div>
-                <div>
-                  <label>Email:</label>
-                  <input type="email" placeholder="Email address" />
-                </div>
-                <div>
-                  <label>Phone:</label>
-                  <input type="text" placeholder="Phone number" />
-                </div>
-                <div>
-                  <label>Property:</label>
-                  <input type="text" placeholder="Property ID / Name" />
-                </div>
+                <div><label>Name:</label><input type="text" /></div>
+                <div><label>Email:</label><input type="email" /></div>
+                <div><label>Phone:</label><input type="text" /></div>
+                <div><label>Property:</label><input type="text" /></div>
               </div>
-
               <div className="form-right">
-                <div>
-                  <label>Lease Start:</label>
-                  <input type="date" />
-                </div>
-                <div>
-                  <label>Lease End:</label>
-                  <input type="date" />
-                </div>
-                <div>
-                  <label>Status:</label>
-                  <input type="text" placeholder="Active / Expired" />
-                </div>
+                <div><label>Lease Start:</label><input type="date" /></div>
+                <div><label>Lease End:</label><input type="date" /></div>
+                <div><label>Status:</label><input type="text" /></div>
                 <div>
                   <label>Is Active:</label>
-                  <select>
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                  </select>
+                  <select><option value="true">Yes</option><option value="false">No</option></select>
                 </div>
               </div>
             </div>
-
             <div className="form-buttons">
               <button type="submit" className="submit-btn">Add</button>
-              <button
-                type="button"
-                className="cancel-btn"
-                onClick={() => setShowForm(false)}
-              >
-                Cancel
-              </button>
+              <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>Cancel</button>
             </div>
           </form>
         </div>
       )}
 
-      <table className="tenant-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Property</th>
-            <th>Lease Period</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tenantList.map((tenant) => (
-            <tr key={tenant.id}>
-              <td>
-                <strong>{tenant.name}</strong><br />
-                <span>{tenant.email}</span>
-              </td>
-              <td>{tenant.phone}</td>
-              <td>{tenant.property}</td>
-              <td>{tenant.leaseStart} to {tenant.leaseEnd}</td>
-              <td>
-                <span className={`status ${tenant.status.toLowerCase()}`}>
-                  {tenant.status}
-                </span>
-              </td>
-              <td className="actions">
-                <button onClick={() => handleViewLease(tenant)}>📄 Lease</button>
-                <button onClick={() => handleChat(tenant)}>💬 Chat</button>
-                <button
-                  onClick={() => deactivateTenant(tenant.id)}
-                  disabled={!tenant.is_active}
-                  className={!tenant.is_active ? "disabled" : ""}
-                >
-                  ❌ Deactivate
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Tenant Cards */}
+      <div className="tenant-card-container">
+        {tenantList.map((tenant) => {
+          const isExpanded = expandedTenantId === tenant.id;
+
+          return (
+            <div
+              key={tenant.id}
+              className={`tenant-card ${tenant.is_active ? "" : "inactive"}`}
+            >
+              <div
+                className="card-header"
+                onClick={() => toggleExpand(tenant.id)}
+                style={{ cursor: "pointer" }}
+              >
+                <h4>{tenant.name}</h4>
+                <p>{tenant.email}</p>
+                <p>{tenant.phone}</p>
+              </div>
+
+              <div
+                className="card-body"
+                style={{
+                  display: isExpanded ? "block" : "none",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                <p><strong>Property:</strong> {tenant.property}</p>
+                <p><strong>Lease:</strong> {tenant.leaseStart} to {tenant.leaseEnd}</p>
+                <p><strong>Status:</strong> {tenant.status}</p>
+
+                <div className="card-actions">
+                  <button onClick={(e) => { e.stopPropagation(); handleViewLease(tenant); }}>📄 Lease</button>
+                  <button onClick={(e) => { e.stopPropagation(); handleChat(tenant); }}>💬 Chat</button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deactivateTenant(tenant.id);
+                    }}
+                    disabled={!tenant.is_active}
+                    className={!tenant.is_active ? "disabled" : ""}
+                  >
+                    ❌ Deactivate
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

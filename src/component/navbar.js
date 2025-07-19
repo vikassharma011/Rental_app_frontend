@@ -20,7 +20,7 @@ const Navbar = ({ onSelect }) => {
           <li onClick={() => onSelect("tenants")}>Tenants</li>
           <li onClick={() => onSelect("supplier")}>Supplier</li>
           <li onClick={() => onSelect("maintainer")}>Maintainer</li>
-          <li onClick={() => onSelect("contacts")}>Contacts</li>
+          <li onClick={() => onSelect("reports")}>Reports</li>
         </ul>
       </aside>
     </>

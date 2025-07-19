@@ -13,11 +13,11 @@ const RegisterForm = () => {
         {/* Logo Section */}
         <div className="logo-section">
           {/* <img src={logo} alt="Logo" className="logo-img" /> */}
-          <h2 className="logo-text">TMS</h2>
+          <h2 className="logo-text">RMS</h2>
         </div>
 
         <h3 className="welcome">Welcome to</h3>
-        <h2 className="title">Tenant Management System</h2>
+        <h2 className="title">Rental Management System</h2>
         <p className="desc">Enter your information below to continue</p>
 
         {/* Form */}

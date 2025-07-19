@@ -56,11 +56,11 @@ const handleLogin = async (e) => {
     <div className="app-container">
       <div className="login-box">
         <div className="logo-section">
-          <h2 className="logo-text">TMS</h2>
+          <h2 className="logo-text">RMS</h2>
         </div>
 
         <h3 className="welcome">Welcome to</h3>
-        <h2 className="title">Tenant Management System</h2>
+        <h2 className="title">Rental Management System</h2>
         <p className="desc">Please login your account.</p>
 
         {/* Form */}
